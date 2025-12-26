@@ -1,36 +1,298 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛥️ 游艇旅游客户大数据预测分析管理系统
 
-## Getting Started
+<p align="center">
+  <img src="public/favicon.svg" alt="Logo" width="80" height="80">
+</p>
 
-First, run the development server:
+<p align="center">
+  基于 Next.js 16 + React 19 + TypeScript 构建的现代化游艇旅游客户管理与数据分析平台
+</p>
 
+<p align="center">
+  <a href="#功能特性">功能特性</a> •
+  <a href="#在线演示">在线演示</a> •
+  <a href="#快速开始">快速开始</a> •
+  <a href="#项目结构">项目结构</a> •
+  <a href="#技术栈">技术栈</a> •
+  <a href="#贡献指南">贡献指南</a>
+</p>
+
+---
+
+## ✨ 功能特性
+
+### 📊 数据看板
+- 实时数据统计卡片展示
+- ECharts 可视化图表
+- 多维度数据分析
+
+### 👥 客户管理
+| 模块 | 路由 | 功能描述 |
+|------|------|----------|
+| 境内客户 | `/customers/domestic` | 境内客户档案管理、游客名单、审核记录 |
+| 境外客户 | `/customers/international` | 境外客户管理、省市信息、服务偏好分析 |
+
+### 📋 订单管理
+| 模块 | 路由 | 功能描述 |
+|------|------|----------|
+| 境内订单 | `/orders/domestic` | 境内订单全流程管理、支付节点追踪 |
+| 境外订单 | `/orders/international` | 境外订单管理、合规审核流程 |
+
+### 🔧 核心功能
+- ✅ **数据展示** - 分页表格、详情面板、统计卡片
+- ✅ **搜索筛选** - 关键词搜索、多条件筛选、快速重置
+- ✅ **增删改查** - 新增、编辑、删除、查看详情
+- ✅ **状态管理** - 订单审核流程（待审核 → 已审核 → 退款中）
+- ✅ **数据导出** - 支持数据导出功能
+- ✅ **深色模式** - 支持亮色/暗色主题切换
+- ✅ **响应式设计** - 适配桌面端和移动端
+
+---
+
+## 🖼️ 界面预览
+
+### 数据看板
+系统首页展示关键业务指标和数据趋势图表。
+
+### 客户管理
+支持客户信息的完整生命周期管理，包括新增、编辑、删除和详情查看。
+
+### 订单管理
+订单全流程管理，支持状态流转和审核操作。
+
+---
+
+## 🚀 快速开始
+
+### 环境要求
+
+| 依赖 | 版本要求 |
+|------|----------|
+| Node.js | >= 18.0.0 |
+| npm | >= 9.0.0 |
+
+### 安装步骤
+
+**1. 克隆项目**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/yacht-analytics.git
+cd yacht-analytics
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**2. 安装依赖**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**3. 启动开发服务器**
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**4. 打开浏览器访问**
+```
+http://localhost:3000
+```
 
-## Learn More
+### 生产部署
 
-To learn more about Next.js, take a look at the following resources:
+**构建生产版本**
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**启动生产服务器**
+```bash
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**静态导出（可选）**
 
-## Deploy on Vercel
+如需部署到静态托管服务（如 GitHub Pages、Vercel 静态托管等），可在 `next.config.ts` 中配置：
+```typescript
+const nextConfig = {
+  output: 'export',
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+然后执行构建，静态文件将输出到 `out` 目录。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📁 项目结构
+
+```
+yacht-analytics/
+├── public/                     # 静态资源
+│   ├── favicon.svg            # 网站图标
+│   └── *.svg                  # 其他图标资源
+├── src/
+│   ├── app/                   # 页面路由 (App Router)
+│   │   ├── analytics/         # 📊 数据分析页
+│   │   ├── customers/         # 👥 客户管理
+│   │   │   ├── domestic/      #    └─ 境内客户
+│   │   │   └── international/ #    └─ 境外客户
+│   │   ├── orders/            # 📋 订单管理
+│   │   │   ├── domestic/      #    └─ 境内订单
+│   │   │   └── international/ #    └─ 境外订单
+│   │   ├── logs/              # 📝 系统日志
+│   │   ├── login/             # 🔐 登录页面
+│   │   ├── globals.css        # 全局样式
+│   │   ├── layout.tsx         # 根布局
+│   │   └── page.tsx           # 首页
+│   ├── components/            # 组件库
+│   │   ├── ui/                # 🧩 基础UI组件 (shadcn/ui)
+│   │   │   ├── button.tsx     #    按钮
+│   │   │   ├── dialog.tsx     #    对话框
+│   │   │   ├── input.tsx      #    输入框
+│   │   │   ├── select.tsx     #    下拉选择
+│   │   │   ├── sheet.tsx      #    侧边抽屉
+│   │   │   ├── table.tsx      #    表格
+│   │   │   ├── toast.tsx      #    消息提示
+│   │   │   └── ...            #    更多组件
+│   │   ├── layout/            # 📐 布局组件
+│   │   │   ├── app-shell.tsx  #    应用外壳
+│   │   │   └── theme-toggle.tsx #  主题切换
+│   │   ├── customers/         # 👥 客户相关组件
+│   │   ├── orders/            # 📋 订单相关组件
+│   │   ├── analytics/         # 📊 分析相关组件
+│   │   └── providers/         # 🔌 Context Providers
+│   ├── data/                  # 📦 静态数据 (JSON)
+│   │   ├── customers/         #    客户数据
+│   │   ├── orders/            #    订单数据
+│   │   ├── analytics/         #    分析数据
+│   │   └── system/            #    系统数据
+│   ├── hooks/                 # 🪝 自定义 Hooks
+│   │   ├── use-auth.ts        #    认证 Hook
+│   │   └── use-toast.ts       #    消息提示 Hook
+│   ├── lib/                   # 🛠️ 工具函数
+│   │   ├── utils.ts           #    通用工具
+│   │   ├── data-utils.ts      #    数据处理
+│   │   └── auth.ts            #    认证相关
+│   ├── config/                # ⚙️ 配置文件
+│   │   └── app.config.ts      #    应用配置
+│   └── types/                 # 📝 TypeScript 类型
+│       ├── customers.ts       #    客户类型
+│       └── orders.ts          #    订单类型
+├── .gitignore                 # Git 忽略配置
+├── next.config.ts             # Next.js 配置
+├── tailwind.config.js         # Tailwind CSS 配置
+├── tsconfig.json              # TypeScript 配置
+└── package.json               # 项目依赖
+```
+
+---
+
+## 🛠️ 技术栈
+
+### 核心框架
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| [Next.js](https://nextjs.org/) | 16.1.1 | React 全栈框架，使用 App Router |
+| [React](https://react.dev/) | 19.2.3 | 用户界面库 |
+| [TypeScript](https://www.typescriptlang.org/) | 5.x | 类型安全的 JavaScript |
+
+### UI 组件
+| 技术 | 说明 |
+|------|------|
+| [Tailwind CSS](https://tailwindcss.com/) | 原子化 CSS 框架 |
+| [shadcn/ui](https://ui.shadcn.com/) | 高质量 React 组件库 |
+| [Radix UI](https://www.radix-ui.com/) | 无障碍组件原语 |
+| [Lucide React](https://lucide.dev/) | 精美图标库 |
+
+### 数据可视化
+| 技术 | 说明 |
+|------|------|
+| [ECharts](https://echarts.apache.org/) | 强大的图表库 |
+| [echarts-for-react](https://github.com/hustcc/echarts-for-react) | ECharts React 封装 |
+
+### 表单与验证
+| 技术 | 说明 |
+|------|------|
+| [React Hook Form](https://react-hook-form.com/) | 高性能表单库 |
+| [Zod](https://zod.dev/) | TypeScript 优先的数据验证 |
+
+### 状态管理
+| 技术 | 说明 |
+|------|------|
+| [TanStack Query](https://tanstack.com/query) | 服务端状态管理 |
+| [next-themes](https://github.com/pacocoursey/next-themes) | 主题管理 |
+
+---
+
+## 📜 开发命令
+
+| 命令 | 说明 |
+|------|------|
+| `npm run dev` | 启动开发服务器 (http://localhost:3000) |
+| `npm run build` | 构建生产版本 |
+| `npm run start` | 启动生产服务器 |
+| `npm run lint` | ESLint 代码检查 |
+
+---
+
+## 🔧 配置说明
+
+### 环境变量
+
+创建 `.env.local` 文件配置环境变量（如需要）：
+
+```env
+# 示例
+NEXT_PUBLIC_API_URL=https://api.example.com
+```
+
+### 主题定制
+
+主题颜色定义在 `src/app/globals.css` 中，可根据需要自定义：
+
+```css
+:root {
+  --primary: 222.2 47.4% 11.2%;
+  --yacht-gold: 45 93% 47%;
+  --yacht-ocean: 199 89% 48%;
+  /* ... */
+}
+```
+
+---
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+### 贡献步骤
+
+1. **Fork** 本仓库
+2. **创建** 功能分支 (`git checkout -b feature/AmazingFeature`)
+3. **提交** 更改 (`git commit -m 'Add some AmazingFeature'`)
+4. **推送** 到分支 (`git push origin feature/AmazingFeature`)
+5. **创建** Pull Request
+
+### 代码规范
+
+- 使用 TypeScript 编写代码
+- 遵循 ESLint 规则
+- 组件使用函数式组件 + Hooks
+- 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/)
+
+---
+
+## 📄 开源协议
+
+本项目基于 [MIT License](LICENSE) 开源。
+
+---
+
+## 🙏 致谢
+
+- [Next.js](https://nextjs.org/) - React 框架
+- [shadcn/ui](https://ui.shadcn.com/) - UI 组件库
+- [Tailwind CSS](https://tailwindcss.com/) - CSS 框架
+- [ECharts](https://echarts.apache.org/) - 图表库
+
+---
+
+<p align="center">
+  如果这个项目对你有帮助，请给一个 ⭐ Star 支持一下！
+</p>

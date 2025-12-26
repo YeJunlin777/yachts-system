@@ -1,26 +1,490 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 高端游艇风格 - 浅色主题 */
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 217 91% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 20%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 45 93% 47%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 217 91% 40%;
+  --radius: 0.75rem;
+  
+  /* 游艇主题专属色 */
+  --yacht-gold: 45 93% 47%;
+  --yacht-gold-light: 45 93% 58%;
+  --yacht-navy: 222 47% 11%;
+  --yacht-ocean: 200 80% 50%;
+  --yacht-foam: 180 60% 95%;
+  
+  /* 图表色彩 - 海洋渐变 */
+  --chart-1: 217 91% 50%;
+  --chart-2: 200 80% 50%;
+  --chart-3: 45 93% 47%;
+  --chart-4: 180 60% 45%;
+  --chart-5: 280 65% 55%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* 高端游艇风格 - 深色主题 (主推) */
+  --background: 222 47% 6%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 47% 9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 200 80% 55%;
+  --primary-foreground: 222 47% 6%;
+  --secondary: 222 47% 14%;
+  --secondary-foreground: 210 40% 90%;
+  --muted: 222 47% 14%;
+  --muted-foreground: 215 20% 55%;
+  --accent: 45 93% 55%;
+  --accent-foreground: 222 47% 6%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 222 47% 16%;
+  --input: 222 47% 16%;
+  --ring: 200 80% 55%;
+  
+  /* 游艇主题专属色 - 深色模式 */
+  --yacht-gold: 45 93% 55%;
+  --yacht-gold-light: 45 93% 65%;
+  --yacht-navy: 222 47% 6%;
+  --yacht-ocean: 200 80% 55%;
+  --yacht-foam: 200 40% 15%;
+  
+  /* 图表色彩 */
+  --chart-1: 200 80% 60%;
+  --chart-2: 180 60% 50%;
+  --chart-3: 45 93% 55%;
+  --chart-4: 160 60% 45%;
+  --chart-5: 280 65% 60%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ========== 高端滚动条 ========== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border/50 rounded-full;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/30;
+}
+
+/* ========== 玻璃拟态效果 ========== */
+@layer utilities {
+  .glass {
+    @apply bg-card/80 backdrop-blur-xl border border-white/10;
+  }
+  
+  .glass-strong {
+    @apply bg-card/90 backdrop-blur-2xl border border-white/15;
+  }
+  
+  .glass-subtle {
+    @apply bg-card/60 backdrop-blur-lg border border-white/5;
+  }
+}
+
+/* ========== 金色光边效果 ========== */
+.gold-glow {
+  position: relative;
+}
+
+.gold-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--yacht-gold) / 0.5),
+    transparent 40%,
+    transparent 60%,
+    hsl(var(--yacht-gold) / 0.3)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gold-glow:hover::before {
+  opacity: 1;
+}
+
+/* ========== 海洋波纹背景 ========== */
+.ocean-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.ocean-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 40%, hsl(var(--yacht-ocean) / 0.03), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 60%, hsl(var(--yacht-gold) / 0.02), transparent);
+  pointer-events: none;
+}
+
+/* ========== 高端卡片样式 ========== */
+.luxury-card {
+  @apply relative rounded-xl bg-card border border-border/50 shadow-lg;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--card)) 0%,
+    hsl(var(--card)) 100%
+  );
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.luxury-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--yacht-gold) / 0.3) 20%,
+    hsl(var(--yacht-gold) / 0.5) 50%,
+    hsl(var(--yacht-gold) / 0.3) 80%,
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.luxury-card:hover {
+  @apply shadow-xl border-border;
+  transform: translateY(-2px);
+}
+
+.luxury-card:hover::before {
+  opacity: 1;
+}
+
+/* ========== 统计卡片特效 ========== */
+.stat-card-premium {
+  @apply relative overflow-hidden;
+}
+
+.stat-card-premium::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    hsl(var(--primary) / 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ========== 图标容器光效 ========== */
+.icon-glow {
+  @apply relative;
+}
+
+.icon-glow::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--primary) / 0.2),
+    transparent 70%
+  );
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.icon-glow:hover::after {
+  opacity: 1;
+}
+
+/* ========== 导航项高亮 ========== */
+.nav-item-active {
+  @apply relative;
+}
+
+.nav-item-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--yacht-gold)),
+    hsl(var(--primary))
+  );
+  border-radius: 0 2px 2px 0;
+}
+
+/* ========== 表格行悬停效果 ========== */
+.table-row-luxury {
+  @apply relative transition-all duration-200;
+}
+
+.table-row-luxury:hover {
+  @apply bg-muted/50;
+}
+
+.table-row-luxury::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: hsl(var(--yacht-gold));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.table-row-luxury:hover::after {
+  opacity: 1;
+}
+
+/* ========== 按钮高级效果 ========== */
+.btn-premium {
+  @apply relative overflow-hidden;
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(0 0% 100% / 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* ========== 页面标题装饰 ========== */
+.title-decoration {
+  @apply relative inline-block;
+}
+
+.title-decoration::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--yacht-gold)),
+    hsl(var(--primary))
+  );
+  border-radius: 1px;
+}
+
+/* ========== 数据高亮 ========== */
+.data-highlight {
+  @apply relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--yacht-gold) / 0.1),
+    transparent
+  );
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ========== 分隔线渐变 ========== */
+.divider-gradient {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--border)) 20%,
+    hsl(var(--border)) 80%,
+    transparent
+  );
+}
+
+/* ========== 呼吸动画 ========== */
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* ========== 光晕脉冲 ========== */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--yacht-gold) / 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px hsl(var(--yacht-gold) / 0.2);
+  }
+}
+
+.animate-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ========== 渐入动画 ========== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out forwards;
+}
+
+/* ========== 图表容器 ========== */
+.chart-container {
+  @apply relative rounded-xl overflow-hidden;
+}
+
+.chart-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(var(--card)) 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========== 徽章高级样式 ========== */
+.badge-premium {
+  @apply relative overflow-hidden;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.15),
+    hsl(var(--primary) / 0.05)
+  );
+  border: 1px solid hsl(var(--primary) / 0.2);
+}
+
+/* ========== 输入框聚焦效果 ========== */
+.input-luxury:focus {
+  box-shadow: 
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--primary) / 0.3),
+    0 0 20px hsl(var(--primary) / 0.1);
+}
+
+/* ========== 侧边栏背景 ========== */
+.sidebar-bg {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card)) 0%,
+    hsl(var(--card) / 0.95) 100%
+  );
+}
+
+.dark .sidebar-bg {
+  background: linear-gradient(
+    180deg,
+    hsl(222 47% 8%) 0%,
+    hsl(222 47% 6%) 100%
+  );
+}
+
+/* ========== 顶栏背景 ========== */
+.header-bg {
+  @apply backdrop-blur-xl;
+  background: hsl(var(--card) / 0.85);
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+.dark .header-bg {
+  background: hsl(222 47% 7% / 0.9);
+}
+
+/* ========== 主内容区背景 ========== */
+.main-content-bg {
+  @apply relative;
+  background: 
+    radial-gradient(ellipse 100% 100% at 0% 0%, hsl(var(--yacht-ocean) / 0.02), transparent 50%),
+    radial-gradient(ellipse 80% 80% at 100% 100%, hsl(var(--yacht-gold) / 0.015), transparent 50%),
+    hsl(var(--background));
 }
